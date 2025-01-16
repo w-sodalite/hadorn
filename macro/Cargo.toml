@@ -1,7 +1,12 @@
 [package]
 name = "hadorn-macro"
+description = "A type-safe HTTP client for Rust"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
+authors.workspace = true
+homepage.workspace = true
+repository.workspace = true
 
 [lib]
 proc-macro = true

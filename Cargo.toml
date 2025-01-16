@@ -5,11 +5,20 @@ members = [".", "macro"]
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
+license = "Apache-2.0"
+authors = ["sodax <w-sodalite@hotmail.com>"]
+homepage = "https://github.com/w-sodalite/hadorn"
+repository = "https://github.com/w-sodalite/hadorn"
 
 [package]
 name = "hadorn"
+description = "A type-safe HTTP client for Rust"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
+authors.workspace = true
+homepage.workspace = true
+repository.workspace = true
 
 [dependencies]
 http = { version = "1.2" }
@@ -20,3 +29,11 @@ serde = { version = "1.0", features = ["derive"] }
 [dev-dependencies]
 tokio = { version = "1.43", features = ["full"] }
 reqwest = { version = "0.12", features = ["json"] }
+
+[workspace.metadata.release]
+registry = "crates-io"
+shared-version = true
+consolidate-commits = true
+pre-release-commit-message = "Release {{version}}"
+tag-name = "v{{version}}"
+allow-branch = ["main"]
