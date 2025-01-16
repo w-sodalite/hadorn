@@ -1,5 +1,16 @@
 # Hadorn
 
+[![Crates.io][crates-badge]][crates-url]
+[![Apache licensed][apache-badge]][apache-url]
+[![Build Status][actions-badge]][actions-url]
+
+[crates-badge]: https://img.shields.io/crates/v/hadorn.svg
+[crates-url]: https://crates.io/crates/hadorn
+[apache-badge]: https://img.shields.io/badge/license-Aapche-blue.svg
+[apache-url]: LICENSE
+[actions-badge]: https://github.com/w-sodalite/hadorn/workflows/CI/badge.svg
+[actions-url]: https://github.com/w-sodalite/hadorn/actions?query=workflow%3ACI
+
 A type-safe HTTP client for Rust, inspire by [retrofit](https://github.com/square/retrofit).
 
 ## Example
