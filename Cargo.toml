@@ -1,0 +1,22 @@
+[workspace]
+resolver = "2"
+members = [".", "macro"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+
+[package]
+name = "hadorn"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+http = { version = "1.2" }
+hadorn-macro = { path = "macro" }
+reqwest = { version = "0.12" }
+serde = { version = "1.0", features = ["derive"] }
+
+[dev-dependencies]
+tokio = { version = "1.43", features = ["full"] }
+reqwest = { version = "0.12", features = ["json"] }
