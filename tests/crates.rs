@@ -10,8 +10,9 @@ use serde::Deserialize;
     deserialized = Json
 )]
 trait Crates {
-    #[get(path = "/crates")]
+    #[get(path = "/api/<version>/crates")]
     async fn list(
+        #[path] version: &str,
         #[query] page: usize,
         #[query = "per_page"] page_size: usize,
         #[optional]
@@ -47,11 +48,12 @@ struct Meta {
 #[tokio::test]
 async fn call_list() {
     let client = CratesClient::new(Client::new())
-        .with_base_url("https://crates.io/api/v1")
+        .with_base_url("https://crates.io")
         .with_default_headers(HeaderMap::from_iter([(
             HeaderName::from_static("user-agent"),
             HeaderValue::from_static("hadorn-rs"),
         )]));
-    let respond = client.list(1, 5, Some("reqwest")).await;
+    // https://crates.io/api/v1/crates?page=1&per_page=5&q=reqwest
+    let respond = client.list("v1", 1, 5, Some("reqwest")).await;
     assert!(respond.is_ok());
 }
