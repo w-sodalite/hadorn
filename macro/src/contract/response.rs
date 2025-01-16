@@ -37,11 +37,11 @@ impl ToTokens for ResponseTokens {
                     }
                 } else {
                     quote! {
-                        __response
+                        Ok(__response)
                     }
                 }
             }
-            None => quote! { __response },
+            None => quote! { Ok(__response) },
         };
         tokens.extend(stream);
     }
