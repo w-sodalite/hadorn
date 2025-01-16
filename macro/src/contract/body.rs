@@ -17,11 +17,10 @@ impl BodyTokens {
     ) -> syn::Result<Self> {
         let body = metas
             .iter()
-            .filter(|meta| meta.kind == Kind::Body)
-            .next()
+            .find(|meta| meta.kind == Kind::Body)
             .map(|meta| &meta.ident)
             .cloned();
-        let serialized = get_serialized(&attrs).map(|s| s.or(serialized))?;
+        let serialized = get_serialized(attrs).map(|s| s.or(serialized))?;
         Ok(Self { body, serialized })
     }
 }
