@@ -93,15 +93,15 @@ async fn call_list() {
 
     > define a grouped apis `client`、`serialized`、`deserialized`.
 
-    - `client`: Generate the `client` struct name, default is the trait name append `Client`
+    - `client`: generate the `client` struct name, default is the trait name append `Client`
   
-    - `serialized`: The trait all apis default serialize type
+    - `serialized`: the current trait all child apis default serialize type
       - Json  => `request.json(...)`
       - Form => `request.form(...)`
       - Multipart => `request.multipart(...)`
       - no set =>  `request.body(...)`
 
-    - `deserialized`: The trait all apis default deserialize type
+    - `deserialized`: the current trait all child apis default deserialize type
       - Text => `response.text()`
       - Json => `response.json()`
       - Bytes => `response.bytes()`
