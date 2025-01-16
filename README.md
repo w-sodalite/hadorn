@@ -38,12 +38,14 @@ use serde::Deserialize;
     deserialized = Json
 )]
 trait Crates {
-    #[get(path = "/crates")]
+    #[get(path = "/api/<version>/crates")]
     async fn list(
+        #[path] version: &str,
         #[query] page: usize,
         #[query = "per_page"] page_size: usize,
         #[optional]
-        #[query = "q"] keyword: &str,
+        #[query = "q"]
+        keyword: &str,
     ) -> Result<QueryCrateRespond>;
 }
 
@@ -74,15 +76,15 @@ struct Meta {
 #[tokio::test]
 async fn call_list() {
     let client = CratesClient::new(Client::new())
-        .with_base_url("https://crates.io/api/v1")
+        .with_base_url("https://crates.io")
         .with_default_headers(HeaderMap::from_iter([(
             HeaderName::from_static("user-agent"),
             HeaderValue::from_static("hadorn-rs"),
         )]));
-    let respond = client.list(1, 5, Some("reqwest")).await.unwrap();
-    println!("{:#?}", respond);
+    // https://crates.io/api/v1/crates?page=1&per_page=5&q=reqwest
+    let respond = client.list("v1", 1, 5, Some("reqwest")).await;
+    println!("{:?}", respond);
 }
-
 ```
 
 ## Macro
@@ -110,7 +112,7 @@ async fn call_list() {
 
     > define a http request `method`、`path`、`headers`、`serialized`、`deserialzed`.
 
-    - `path`: request path
+    - `path`: request path `/api/user/<id>`, use the `<...>` define a variable, example: `/api/user/<id>` contains a variable `id`.
     - `headers`: request headers, examples: `headers = [("content-type", "application/json")]`
     - `serialized`: same of `hadorn`, priority is higher.
     - `deserialized`: same of `hadorn`, priority is higher.
