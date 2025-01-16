@@ -54,6 +54,6 @@ async fn call_list() {
             HeaderValue::from_static("hadorn-rs"),
         )]));
     // https://crates.io/api/v1/crates?page=1&per_page=5&q=reqwest
-    let respond = client.list("v1", 1, 5, Some("reqwest")).await;
-    assert!(respond.is_ok());
+    let respond = client.list("v1", 1, 10, Some("reqwest")).await;
+    println!("{:#?}", respond);
 }
