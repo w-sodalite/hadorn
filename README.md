@@ -95,7 +95,7 @@ async fn call_list() {
   
     - `serialized`: The trait all apis default serialize type
       - Json  => `request.json(...)`
-      - FormData => `request.form(...)`
+      - Form => `request.form(...)`
       - Multipart => `request.multipart(...)`
       - no set =>  `request.body(...)`
 
@@ -103,7 +103,8 @@ async fn call_list() {
       - Text => `response.text()`
       - Json => `response.json()`
       - Bytes => `response.bytes()`
-      - no set => `response`
+      - Response => `response`
+      - no set => `()`
 
 - `get` | `post` | `put` | `delete` | `head` | `option` | `trace`
 
