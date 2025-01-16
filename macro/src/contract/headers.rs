@@ -52,10 +52,10 @@ impl ToTokens for HeaderTokens<'_> {
             .map(|meta| {
                 let header_name = match &meta.rename {
                     None => meta.ident.to_string(),
-                    Some(rename) =>rename.value()
+                    Some(rename) => rename.value(),
                 };
                 let header_value = &meta.ident;
-                quote! { let __request = __request.header(stringify!(#header_name), #header_value); }
+                quote! { let __request = __request.header(#header_name, #header_value); }
             });
         tokens.extend(stream);
     }
