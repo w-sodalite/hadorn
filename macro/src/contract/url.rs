@@ -42,8 +42,8 @@ impl ToTokens for UrlTokens<'_> {
                         match self.base_url() {
                             Some(base_url) => format!("{}{}", base_url, path),
                             None => path,
-                        };
-                    }
+                        }
+                    };
                 }
             }
         };
