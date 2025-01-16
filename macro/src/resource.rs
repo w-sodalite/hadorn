@@ -1,8 +1,8 @@
-use crate::util::ExprArg;
+use crate::util::{http_mod_path, reqwest_mod_path, ExprArg};
 use proc_macro2::{Ident, TokenStream, TokenTree};
 use quote::{format_ident, quote};
 use syn::parse::{Parse, ParseStream};
-use syn::{parse_quote, ItemTrait, Path, Token, TraitItem, TypeParamBound};
+use syn::{parse_quote, ItemTrait, Token, TraitItem, TypeParamBound};
 
 #[derive(Debug, Default)]
 pub struct Resource {
@@ -80,8 +80,8 @@ impl Resource {
             }
         });
 
-        let hadorn_http_mod: Path = parse_quote!(hadorn::__http);
-        let hadorn_reqwest_mod: Path = parse_quote!(hadorn::__reqwest);
+        let http_mod = http_mod_path();
+        let reqwest_mod = reqwest_mod_path();
 
         // struct and block
         let struct_block = quote! {
@@ -89,19 +89,19 @@ impl Resource {
             #[derive(Clone, Default)]
             #vis struct #client{
                 #[doc = "reqwest client"]
-                client: #hadorn_reqwest_mod::Client,
+                client: #reqwest_mod::Client,
 
                 #[doc = "base url"]
                 base_url: Option<String>,
 
                 #[doc = "default http headers"]
-                default_headers: Option<#hadorn_http_mod::HeaderMap>
+                default_headers: Option<#http_mod::HeaderMap>
             }
 
             impl #client {
 
                 #[doc = "construct with reqwest client"]
-                pub fn new(client: #hadorn_reqwest_mod::Client) -> Self {
+                pub fn new(client: #reqwest_mod::Client) -> Self {
                     Self{
                         client,
                         base_url: None,
@@ -116,7 +116,7 @@ impl Resource {
                 }
 
                 #[doc = "set default http headers for the client"]
-                pub fn with_default_headers(mut self, default_headers: #hadorn_http_mod::HeaderMap) -> Self {
+                pub fn with_default_headers(mut self, default_headers: #http_mod::HeaderMap) -> Self {
                     self.default_headers = Some(default_headers);
                     self
                 }
@@ -132,7 +132,7 @@ impl Resource {
         let impl_hadorn_trait = quote! {
             impl hadorn::Hadorn for #client {
 
-                fn client(&self) -> &#hadorn_reqwest_mod::Client {
+                fn client(&self) -> &#reqwest_mod::Client {
                     &self.client
                 }
 
@@ -140,7 +140,7 @@ impl Resource {
                     self.base_url.as_deref()
                 }
 
-                fn default_headers(&self) -> Option<&#hadorn_http_mod::HeaderMap> {
+                fn default_headers(&self) -> Option<&#http_mod::HeaderMap> {
                     self.default_headers.as_ref()
                 }
             }
