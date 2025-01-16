@@ -3,7 +3,7 @@ resolver = "2"
 members = ["macro", "."]
 
 [workspace.package]
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 license = "Apache-2.0"
 authors = ["sodax <w-sodalite@hotmail.com>"]
@@ -32,7 +32,7 @@ repository.workspace = true
 http = { version = "1.2" }
 reqwest = { version = "0.12" }
 serde = { version = "1.0", features = ["derive"] }
-hadorn-macro = { path = "macro", version = "0.1.1" }
+hadorn-macro = { path = "macro", version = "0.1.2" }
 
 [dev-dependencies]
 tokio = { version = "1.43", features = ["full"] }
