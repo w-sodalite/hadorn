@@ -42,18 +42,16 @@ impl ToTokens for BodyTokens {
                     }
                 } else if serialized == symbol::MULTIPART {
                     quote! {
-                        let __request = __request.multipart(&#body);
+                        let __request = __request.multipart(#body);
                     }
                 } else {
                     quote! {
-                        let __request = __request.body(&#body);
+                        let __request = __request.body(#body);
                     }
                 }
             }
             None => quote! {
-                quote! {
-                    let __request = __request.body(&#body);
-                }
+                let __request = __request.body(#body);
             },
         });
         tokens.extend(stream);
