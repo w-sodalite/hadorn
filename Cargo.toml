@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = [".", "macro"]
+members = ["macro", "."]
 
 [workspace.package]
 version = "0.1.0"
@@ -9,6 +9,14 @@ license = "Apache-2.0"
 authors = ["sodax <w-sodalite@hotmail.com>"]
 homepage = "https://github.com/w-sodalite/hadorn"
 repository = "https://github.com/w-sodalite/hadorn"
+
+[workspace.metadata.release]
+registry = "crates-io"
+shared-version = true
+consolidate-commits = true
+pre-release-commit-message = "Release {{version}}"
+tag-name = "v{{version}}"
+allow-branch = ["main"]
 
 [package]
 name = "hadorn"
@@ -22,18 +30,11 @@ repository.workspace = true
 
 [dependencies]
 http = { version = "1.2" }
-hadorn-macro = { path = "macro" }
 reqwest = { version = "0.12" }
 serde = { version = "1.0", features = ["derive"] }
+hadorn-macro = { path = "macro", version = "0.1.0" }
 
 [dev-dependencies]
 tokio = { version = "1.43", features = ["full"] }
 reqwest = { version = "0.12", features = ["json"] }
 
-[workspace.metadata.release]
-registry = "crates-io"
-shared-version = true
-consolidate-commits = true
-pre-release-commit-message = "Release {{version}}"
-tag-name = "v{{version}}"
-allow-branch = ["main"]
