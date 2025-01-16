@@ -11,6 +11,7 @@
 [actions-badge]: https://github.com/w-sodalite/hadorn/workflows/CI/badge.svg
 [actions-url]: https://github.com/w-sodalite/hadorn/actions?query=workflow%3ACI
 
+
 A type-safe HTTP client for Rust, inspire by [retrofit](https://github.com/square/retrofit).
 
 ## Example
@@ -83,6 +84,44 @@ async fn call_list() {
 }
 
 ```
+
+## Macro
+
+- `hadorn`
+
+    > define a grouped apis `client`、`serialized`、`deserialized`.
+
+    - `client`: Generate the `client` struct name, default is the trait name append `Client`
+  
+    - `serialized`: The trait all apis default serialize type
+      - Json  => `request.json(...)`
+      - FormData => `request.form(...)`
+      - Multipart => `request.multipart(...)`
+      - no set =>  `request.body(...)`
+
+    - `deserialized`: The trait all apis default deserialize type
+      - Text => `response.text()`
+      - Json => `response.json()`
+      - Bytes => `response.bytes()`
+      - no set => `response`
+
+- `get` | `post` | `put` | `delete` | `head` | `option` | `trace`
+
+    > define a http request `method`、`path`、`headers`、`serialized`、`deserialzed`.
+
+    - `path`: request path
+    - `headers`: request headers, examples: `headers = [("content-type", "application/json")]`
+    - `serialized`: same of `hadorn`, priority is higher.
+    - `deserialized`: same of `hadorn`, priority is higher.
+
+
+- `#[path]` | `#[query]` | `#[header]` | `#[body]`
+  
+    > `#[path]`、`#[query]`、`#[header]` can set a literal to rename the argument name: `#[path = "version"]`, if the request param name not equals arument name. 
+
+    > `#[body]` mark the argument is request body argument, only appear once.
+
+
 
 ## Notice
 
