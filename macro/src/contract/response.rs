@@ -9,7 +9,10 @@ pub struct ResponseTokens {
 
 impl ResponseTokens {
     pub fn new(attrs: &[Attribute], deserialized: Option<Ident>) -> syn::Result<Self> {
-        let deserialized = get_deserialized(&attrs).map(|d| d.or(deserialized))?;
+        let deserialized = match deserialized {
+            Some(deserialized) => Some(deserialized),
+            None => get_deserialized(attrs)?,
+        };
         Ok(Self { deserialized })
     }
 }
@@ -22,26 +25,30 @@ impl ToTokens for ResponseTokens {
         tokens.extend(stream);
 
         let stream = match self.deserialized.as_ref() {
-            Some(deserialize) => {
-                if deserialize == symbol::JSON {
+            Some(deserialized) => {
+                if deserialized == symbol::JSON {
                     quote! {
                         __response.json().await
                     }
-                } else if deserialize == symbol::TEXT {
+                } else if deserialized == symbol::TEXT {
                     quote! {
                         __response.text().await
                     }
-                } else if deserialize == symbol::BYTES {
+                } else if deserialized == symbol::BYTES {
                     quote! {
                         __response.bytes().await
                     }
-                } else {
+                } else if deserialized == symbol::RESPONSE {
                     quote! {
                         Ok(__response)
                     }
+                } else {
+                    quote! {
+                        Ok(())
+                    }
                 }
             }
-            None => quote! { Ok(__response) },
+            None => quote! { Ok(()) },
         };
         tokens.extend(stream);
     }
@@ -66,4 +73,5 @@ mod symbol {
     pub const JSON: Symbol = Symbol("Json");
     pub const TEXT: Symbol = Symbol("Text");
     pub const BYTES: Symbol = Symbol("Bytes");
+    pub const RESPONSE: Symbol = Symbol("Response");
 }
