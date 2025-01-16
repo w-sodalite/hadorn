@@ -20,7 +20,10 @@ impl BodyTokens {
             .find(|meta| meta.kind == Kind::Body)
             .map(|meta| &meta.ident)
             .cloned();
-        let serialized = get_serialized(attrs).map(|s| s.or(serialized))?;
+        let serialized = match serialized {
+            Some(serialized) => Some(serialized),
+            None => get_serialized(attrs)?,
+        };
         Ok(Self { body, serialized })
     }
 }
@@ -33,9 +36,9 @@ impl ToTokens for BodyTokens {
                     quote! {
                         let __request = __request.json(&#body);
                     }
-                } else if serialized == symbol::FORM_DATA {
+                } else if serialized == symbol::FORM {
                     quote! {
-                        let __request = __request.form_data(&#body);
+                        let __request = __request.form(&#body);
                     }
                 } else if serialized == symbol::MULTIPART {
                     quote! {
@@ -74,6 +77,6 @@ mod symbol {
 
     pub const SERIALIZED: Symbol = Symbol("serialized");
     pub const JSON: Symbol = Symbol("Json");
-    pub const FORM_DATA: Symbol = Symbol("FormData");
+    pub const FORM: Symbol = Symbol("Form");
     pub const MULTIPART: Symbol = Symbol("Multipart");
 }
