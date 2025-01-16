@@ -50,7 +50,7 @@ pub struct PatMeta {
     pub reference: bool,
 }
 
-impl<'a> TryFrom<&'a PatType> for PatMeta {
+impl TryFrom<&'_ PatType> for PatMeta {
     type Error = Error;
 
     fn try_from(pat: &PatType) -> Result<Self, Self::Error> {
